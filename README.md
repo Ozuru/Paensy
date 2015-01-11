@@ -2,7 +2,7 @@
 
 ## What is Paensy?
 
-Paensy is a combination of the word payload and Teensy - Paensy is an attacker-oriented library written for the development of Teensy devices. Paensy simplifies mudane tasks and allows an easier platform for scripting.
+Paensy is a combination of the word payload and Teensy - Paensy is an attacker-oriented library written for the development of Teensy devices. Paensy simplifies mundane tasks and allows an easier platform for scripting.
 
 ## Getting Started With Paensy
 
