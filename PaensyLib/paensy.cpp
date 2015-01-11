@@ -89,7 +89,7 @@ int GetLEDPin() {
  * I personally keep it at 60, feel free to change that if it feels too absurd.
  **/
 void PerformInitDelay() {
-    delay(delayAm * 60);
+    delay(delayAm * 30);
 }
 /**
  * Opens the run prompt and executes whatever *command is.
@@ -99,14 +99,14 @@ void RunCommand(char *command) {
     Keyboard.set_key1(KEY_R);
     Keyboard.send_now(); // Send keys to the system
     Keyboard.set_modifier(0); // Release the GUI (Windows) key
-    delay(delayAm);
+    delay(delayAm * 1.5);
     Keyboard.set_key1(0); // No key
     Keyboard.send_now(); // Send the key change
-    delay(delayAm*2);
+    delay(delayAm*2.2);
     Keyboard.print(command);
     Keyboard.set_key1(KEY_ENTER); 
     Keyboard.send_now();
-    delay(delayAm);
+    delay(delayAm*1.5);
     Keyboard.set_key1(0); 
     Keyboard.send_now();
     delay(delayAm);
@@ -147,7 +147,7 @@ void PressKey(int key, int amount) {
         Keyboard.send_now();
         Keyboard.set_key1(0);
         Keyboard.send_now();
-        delay(delayAm/10);
+        delay(delayAm/8);
     }
 }
 
@@ -156,9 +156,9 @@ void PressKey(int key, int amount) {
  **/
 void TypeLn(String chars) {
     Keyboard.print(chars);
-    delay(delayAm);
+    delay(delayAm/2);
     Keyboard.println("");
-    delay(delayAm*2);
+    delay(delayAm/2);
 }
 
 /**

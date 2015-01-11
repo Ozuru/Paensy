@@ -1,256 +1,163 @@
 /***
- *        __               __      __  __                    ______                            __           
- *       / /   ____  _____/ /__    \ \/ /___  __  _______   / ____/___  ____ ___  ____  __  __/ /____  _____
- *      / /   / __ \/ ___/ //_/     \  / __ \/ / / / ___/  / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
- *     / /___/ /_/ / /__/ ,<        / / /_/ / /_/ / /     / /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /    
- *    /_____/\____/\___/_/|_|      /_/\____/\__,_/_/      \____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/     
- *       ______                           __           __   __             ___/_/                           
- *      / ____/___  ____ _   _____  _____/ /____  ____/ /  / /_  __  __   / __ \____  __  _________  __     
- *     / /   / __ \/ __ \ | / / _ \/ ___/ __/ _ \/ __  /  / __ \/ / / /  / / / /_  / / / / / ___/ / / /     
- *    / /___/ /_/ / / / / |/ /  __/ /  / /_/  __/ /_/ /  / /_/ / /_/ /  / /_/ / / /_/ /_/ / /  / /_/ /      
- *    \____/\____/_/ /_/|___/\___/_/   \__/\___/\__,_/  /_.___/\__, /   \____/ /___/\__,_/_/   \__,_/       
- *                                                            /____/                                        
- *   Original Concept By: SurfKahuna
+ *     _                _     __   __                 _____                             _            
+ *    | |              | |    \ \ / /                /  __ \                           | |           
+ *    | |     ___   ___| | __  \ V /___  _   _ _ __  | /  \/ ___  _ __ ___  _ __  _   _| |_ ___ _ __ 
+ *    | |    / _ \ / __| |/ /   \ // _ \| | | | '__| | |    / _ \| '_ ` _ \| '_ \| | | | __/ _ \ '__|
+ *    | |___| (_) | (__|   <    | | (_) | |_| | |    | \__/\ (_) | | | | | | |_) | |_| | ||  __/ |   
+ *    \_____/\___/ \___|_|\_\   \_/\___/ \__,_|_|     \____/\___/|_| |_| |_| .__/ \__,_|\__\___|_|   
+ *                                                                         | |                       
+ *                                                                         |_|                       
+ *     _____                           _           _   _             _____                           
+ *    /  __ \                         | |         | | | |           |  _  |                          
+ *    | /  \/ ___  _ ____   _____ _ __| |_ ___  __| | | |__  _   _  | | | |_____   _ _ __ _   _      
+ *    | |    / _ \| '_ \ \ / / _ \ '__| __/ _ \/ _` | | '_ \| | | | | | | |_  / | | | '__| | | |     
+ *    | \__/\ (_) | | | \ V /  __/ |  | ||  __/ (_| | | |_) | |_| | \ \_/ // /| |_| | |  | |_| |     
+ *     \____/\___/|_| |_|\_/ \___|_|   \__\___|\__,_| |_.__/ \__, |  \___//___|\__,_|_|   \__,_|     
+ *                                                            __/ |                                  
+ *                                                           |___/                                   
+ *
+ * Original Concept By: SurfKahuna
  */
 
-// LED pin number, 13 for 3.1
-// 11 for 2 and 2.x
-int LED_PIN = 13;
-
-// delay length (in ms)
-int ds = 200;
-// morse delay length (in ms)
-int morseD = 250;
+#include <paensy.h>
 
 void setup() {
   
-  // let it initialize
-  delay(1000);
+  // Configure the delay that everything else scales off of.
+  SetDelay(100);
+  // Configure the delay that the Morse code uses.
+  SetMorseDelay(250);
   
-  // put the pin into output mode
+  // Perform an initial delay to give the USB time to prepare.
+  PerformInitDelay();
+  
+  // LED pin number, 13 for 3.1
+  // 11 for 2 and 2.x
+  SetLEDPin(13);
+  
+  // Put the pin into output mode
   pinMode(LED_PIN, OUTPUT);
   
-  // turn on the LED pin so we know it's running
+  // Turn on the LED pin so we know the device is running.
   digitalWrite(LED_PIN, HIGH);
   
   delay(1000);
   
-  // windows key + R = run
-  sendCmd(KEY_R);
+  // Open up notepad (or any other vector of choice).
+  RunCommand("notepad.exe");
   
-  delay(ds);
+  delay(1000);
   
-  typeln("notepad.exe");
+  // Start typing the ASCII art.
+  TypeLn("          , ,\ ,'\,'\ ,'\ ,\ ,");
   
-  typeFast("          , ,\ ,'\,'\ ,'\ ,\ ,");
+  TypeLn("    ,  ,\/ \' `'     `   '  /|");
   
-  typeFast("    ,  ,\/ \' `'     `   '  /|");
+  TypeLn("    |\/                      |");
   
-  typeFast("    |\/                      |");
+  TypeLn("    :                        |");
   
-  typeFast("    :                        |");
+  TypeLn("    :                        |");
   
-  typeFast("    :                        |");
+  TypeLn("     |                       |");
   
-  typeFast("     |                       |");
+  TypeLn("     |                       |");
   
-  typeFast("     |                       |");
+  TypeLn("     :               -.     _|");
   
-  typeFast("     :               -.     _|");
+  TypeLn("     :                \     `.");
   
-  typeFast("     :                \     `.");
+  TypeLn("     |         ________:______\\");
   
-  typeFast("     |         ________:______\\");
+  TypeLn("     :       ,'o       / o    ,");
   
-  typeFast("     :       ,'o       / o    ,");
+  TypeLn("     :       \       ,'-----./");
   
-  typeFast("     :       \       ,'-----./");
+  TypeLn("      \_      `--.--'        )");
   
-  typeFast("      \_      `--.--'        )");
+  TypeLn("     ,` `.              ,---'|");
   
-  typeFast("     ,` `.              ,---'|");
+  TypeLn("     : `                     |");
   
-  typeFast("     : `                     |");
+  TypeLn("      `,-'                   |");
   
-  typeFast("      `,-'                   |");
+  TypeLn("      /      ,---.          ,'");
   
-  typeFast("      /      ,---.          ,'");
+  TypeLn("   ,-'            `-,------'");
   
-  typeFast("   ,-'            `-,------'");
+  TypeLn("   `.        ,--'");
   
-  typeFast("   `.        ,--'");
+  TypeLn("     `-.____/");
   
-  typeFast("     `-.____/");
+  TypeLn("            \\");
   
-  typeFast("            \\");
+  // Go two lines down.
+  PressKey(KEY_ENTER, 2);
   
-  typeFast("");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("I will learn to lock my computer.");
   
-  typeFast("I will learn to lock my computer.");
+  // Go three lines down.
+  PressKey(KEY_ENTER, 3);
   
-  typeFast("I will learn to lock my computer.");
+  TypeLn("There, just like Bart Simpson: please remember to lock your computer.");
   
-  typeFast("");
+  // Open up the window menu.
+  Alt(KEY_SPACE);
   
-  typeFast("");
-  
-  typeFast("");
-  
-  typeFast("There, just like Bart Simpson: please remember to lock your computer.");
-  
-  alt(KEY_SPACE);
-  
-  k(KEY_X);
+  // Maximize the window.
+  PressKey(KEY_X, 1);
    
 }
 
 void loop() {
- flutter();
- // celebratory flutterring of LED commence
- dot();
- dash();
- dash();
- dot();
- // p
- dot();
- dash();
- dash();
- //w
- dash();
- dot();
- //n
- dot();
- dot();
- dot();
- dash();
- dash();
- //3
- dash();
- dot();
- dot();
- //d
- flutter();
- // whoop there it is (again)
+ // Celebratory LED fluttering.
+ LED_Flutter(200, 10);
  
-}
-
-void typeln(String chars)
-{
-  // gotta make our own println function
-  Keyboard.print(chars);
-  delay(ds);
-  Keyboard.println("");
-  delay(ds * 4);
-}
-
-void typeFast(String chars)
-{
-  // gotta make our own println function but fastah
-  Keyboard.print(chars);
-  delay(5);
-  Keyboard.println("");
-  delay(5);
-}
-
-void sendCmd(int key)
-{
-  mod(MODIFIERKEY_GUI, key);
-  delay(ds);
-}
-
-void alt(int key)
-{
-  mod(MODIFIERKEY_ALT, key);
-}
-
-void ctrl(int key)
-{
-  mod(MODIFIERKEY_CTRL, key);
-}
-
-void k(int key)
-{
-  Keyboard.set_key1(key);
-  Keyboard.send_now();
-  delay(1);
-  
-  Keyboard.set_key1(0);
-  Keyboard.send_now();
-  delay(1);
-}
-
-
-// morse code dot
-void dot() { 
- digitalWrite(LED_PIN, HIGH);
- delay(morseD);
- digitalWrite(LED_PIN, LOW);
- delay(morseD);
-}
-
-// morse code dash
-void dash() {
- digitalWrite(LED_PIN, HIGH);
- delay(morseD * 3);
- digitalWrite(LED_PIN, LOW);
- delay(morseD);
-}
-
-// induce a seizure in the observer - #prostrats  
-void flutter() {
-  
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
+ // P
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ LED_MorseDot();
  
-}
+ // W
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ 
+ // N
+ LED_MorseDash();
+ LED_MorseDot();
 
-// custom modifier method
-void mod(int mod, int key)
-{
-  Keyboard.set_modifier(mod);
-  Keyboard.send_now();
-  Keyboard.set_key1(key);
-  Keyboard.send_now();
-  delay(ds);
-
-  Keyboard.set_modifier(0);
-  Keyboard.set_key1(0);
-  Keyboard.send_now();
-  delay(ds);
+ // 3
+ LED_MorseDot();
+ LED_MorseDot();
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ 
+ // D
+ LED_MorseDash();
+ LED_MorseDot();
+ LED_MorseDot();
+ 
+ // Flutter again.
+ LED_Flutter(200, 10); 
 }

